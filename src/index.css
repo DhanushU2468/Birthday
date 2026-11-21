@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap');
+
+:root {
+  font-family: 'Manrope', sans-serif;
+  color: #fff;
+  background: #cbd2e6;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; height: 100%; margin: 0; }
+body { overflow: hidden; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.experience { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(145deg, #d2c3df 0%, #efcad7 48%, #bcd4e8 100%); }
+.world-canvas { position: absolute !important; inset: 0; z-index: 1; }
+.castle-background { position: absolute; z-index: 2; inset: 0; background-image: linear-gradient(rgba(32,24,82,.08), rgba(32,24,82,.18)), url('/deepthi-castle.png'); background-size: cover; background-position: center 58%; }
+.stage-castle .world-canvas { opacity: 0; }
+.sky-glow { position: absolute; z-index: 0; inset: 0; background: radial-gradient(circle at 50% 20%, rgba(255,246,215,.95), transparent 27%), linear-gradient(160deg, rgba(186,171,219,.65), rgba(238,184,205,.45) 55%, rgba(165,207,223,.7)); }
+.topbar { position: absolute; z-index: 20; top: 28px; left: 38px; right: 38px; display: flex; justify-content: space-between; align-items: center; }
+.brand { font-size: 11px; letter-spacing: .32em; color: rgba(83,67,105,.75); font-weight: 600; }
+.audio-controls { display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.5); border-radius: 999px; padding: 5px 10px; background: rgba(255,255,255,.18); backdrop-filter: blur(14px); }
+.audio-controls button { border: 0; background: transparent; color: #fff; width: 28px; }
+.audio-controls input { width: 62px; accent-color: #fff3df; }
+
+.wish-card { position: absolute; z-index: 10; left: 7.5%; top: 50%; width: min(520px, 44vw); transform: translateY(-44%); text-shadow: 0 2px 20px rgba(91,70,112,.15); }
+.eyebrow { margin: 0 0 13px; font-size: 12px; text-transform: uppercase; letter-spacing: .22em; color: rgba(255,255,255,.78); }
+.wish-card h1, .castle-card h2, .final-card h2 { font-family: 'Cormorant Garamond', serif; font-weight: 600; line-height: .98; margin: 0; }
+.wish-card h1 { max-width: 500px; font-size: clamp(46px, 6vw, 78px); }
+.story { max-width: 470px; margin: 22px 0 28px; color: rgba(255,255,255,.88); line-height: 1.72; font-size: 15px; }
+.primary-button, .ghost-button, .continue-button { border: 0; border-radius: 999px; color: #66566f; background: rgba(255,250,239,.94); padding: 14px 18px 14px 22px; box-shadow: 0 12px 40px rgba(105,82,123,.16); transition: transform .25s, box-shadow .25s; }
+.primary-button:hover, .continue-button:hover { transform: translateY(-3px); box-shadow: 0 18px 45px rgba(105,82,123,.23); }
+.primary-button span, .continue-button span { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-left: 12px; border-radius: 50%; background: #eadcf1; }
+
+.memory-panel { position: absolute; z-index: 12; left: 4%; right: 4%; bottom: 7%; border: 1px solid rgba(255,255,255,.38); border-radius: 24px; padding: 22px; background: rgba(246,235,245,.22); backdrop-filter: blur(18px); box-shadow: 0 20px 70px rgba(82,62,105,.16); }
+.memory-heading { display: flex; align-items: end; justify-content: space-between; padding: 4px 8px 16px; }
+.memory-heading h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 46px); margin: 0; }
+.continue-button { flex: none; }
+.memory-strip { display: flex; gap: 14px; overflow-x: auto; padding: 4px 4px 10px; scrollbar-width: thin; }
+.memory-tile { flex: 0 0 clamp(150px, 18vw, 230px); height: 150px; border: 1px solid rgba(255,255,255,.65); border-radius: 16px; padding: 7px; overflow: hidden; background: rgba(255,255,255,.28); color: #fff; text-align: left; box-shadow: 0 12px 35px rgba(86,65,108,.14); }
+.memory-tile img, .memory-tile video { width: 100%; height: 112px; object-fit: cover; border-radius: 10px; display: block; }
+.memory-tile span { display: block; padding: 8px 4px 0; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gallery-empty { height: 160px; display: grid; place-content: center; text-align: center; border: 1px dashed rgba(255,255,255,.5); border-radius: 16px; }
+.gallery-empty span { font-family: 'Cormorant Garamond', serif; font-size: 28px; }
+.gallery-empty p { margin: 8px 0; font-size: 12px; }
+code { background: rgba(255,255,255,.25); padding: 3px 6px; border-radius: 5px; }
+
+.lightbox { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; background: rgba(69,55,82,.62); backdrop-filter: blur(18px); }
+.lightbox-content { position: relative; width: min(860px, 86vw); max-height: 82vh; border: 1px solid rgba(255,255,255,.5); border-radius: 22px; padding: 12px; background: rgba(255,255,255,.22); }
+.lightbox-content img, .lightbox-content video { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 14px; display: block; }
+.lightbox-content p { margin: 10px 8px 4px; }
+.lightbox-close { position: absolute; z-index: 2; right: -12px; top: -12px; width: 38px; height: 38px; border: 0; border-radius: 50%; background: #fff6ec; color: #715f78; font-size: 24px; }
+
+.castle-card, .final-card { position: absolute; z-index: 10; left: 50%; bottom: 10%; width: min(620px, 86vw); text-align: center; transform: translateX(-50%); }
+.castle-card h2, .final-card h2 { font-size: clamp(42px, 7vw, 74px); }
+.castle-card .primary-button { margin-top: 24px; }
+.final-card { bottom: 8%; }
+.ghost-button { margin-top: 22px; background: rgba(255,255,255,.24); color: #fff; border: 1px solid rgba(255,255,255,.45); backdrop-filter: blur(12px); }
+.stage-back { position: absolute; z-index: 20; left: 38px; bottom: 34px; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; background: rgba(255,255,255,.18); color: #fff; }
+.stage-label { position: absolute; z-index: 20; right: 38px; bottom: 34px; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+
+.loader { position: fixed; z-index: 200; inset: 0; display: grid; place-content: center; justify-items: center; background: linear-gradient(145deg, #cbc1df, #efcad7 55%, #bdd5e5); }
+.loader p { font-family: 'Cormorant Garamond', serif; font-size: 22px; }
+.loader-orbit { width: 96px; height: 56px; border-radius: 50%; border: 1px solid rgba(255,255,255,.55); transform: rotate(-8deg); animation: loaderFloat 2s ease-in-out infinite; }
+.loader-orbit span { position: absolute; width: 22px; height: 22px; left: 37px; top: 16px; border-radius: 50%; background: #f4d3df; box-shadow: 0 8px 15px rgba(118,94,135,.18); }
+.loader-line { width: 180px; height: 2px; background: rgba(255,255,255,.35); overflow: hidden; }
+.loader-line i { display: block; height: 100%; background: #fff; animation: loading 1.2s ease-in-out infinite; }
+.empty-state { width: 210px; text-align: center; color: #6d5d78; background: rgba(255,255,255,.82); border-radius: 14px; padding: 14px; box-shadow: 0 12px 30px rgba(78,61,96,.12); }
+.empty-state strong, .empty-state span { display: block; }
+.empty-state span { margin-top: 5px; font-size: 10px; }
+.memory-card { width: 170px; border: 1px solid rgba(255,255,255,.7); border-radius: 14px; padding: 7px; background: rgba(255,248,238,.55); backdrop-filter: blur(12px); color: #725f7c; box-shadow: 0 16px 36px rgba(89,68,109,.18); transform: rotate(-2deg); transition: transform .25s, box-shadow .25s; }
+.memory-card:hover { transform: translateZ(20px) scale(1.08) rotate(0deg); box-shadow: 0 22px 45px rgba(89,68,109,.28); }
+.memory-card img, .memory-card video { width: 100%; height: 105px; object-fit: cover; border-radius: 9px; display: block; }
+.memory-card span { display: block; padding: 7px 4px 2px; font-size: 10px; }
+@keyframes loaderFloat { 50% { transform: rotate(8deg) translateY(-8px); } }
+@keyframes loading { 0% { width: 5%; } 70% { width: 90%; } 100% { width: 100%; } }
+
+@media (max-width: 700px) {
+  .topbar { top: 18px; left: 18px; right: 18px; }
+  .wish-card { left: 22px; right: 22px; top: auto; bottom: 9%; width: auto; transform: none; }
+  .wish-card h1 { font-size: clamp(40px, 13vw, 58px); }
+  .story { font-size: 13px; line-height: 1.55; margin: 14px 0 20px; }
+  .memory-panel { left: 12px; right: 12px; bottom: 70px; padding: 12px; }
+  .memory-heading { align-items: center; }
+  .memory-heading h2 { font-size: 28px; }
+  .continue-button { padding: 10px 12px; }
+  .continue-button span { margin-left: 5px; }
+  .memory-tile { flex-basis: 150px; }
+  .stage-back { left: 14px; bottom: 18px; }
+  .stage-label { right: 16px; bottom: 30px; }
+  .audio-controls input { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
