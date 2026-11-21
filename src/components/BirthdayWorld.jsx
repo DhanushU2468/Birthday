@@ -270,7 +270,7 @@ function MemoryCards({ manifest, stage, onOpenMedia }) {
             ) : (
               <video src={item.src} muted preload="metadata" loop playsInline />
             )}
-            <span>{stage === 'photos' ? item.caption : 'Funny Moments'}</span>
+            {stage === 'memories' && <span>Funny Moments</span>}
           </article>
         </Html>
       </Float>

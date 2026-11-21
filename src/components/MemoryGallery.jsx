@@ -31,6 +31,7 @@ export default function MemoryGallery({ stage, manifest, onContinue }) {
             <motion.button
               key={item.id}
               className="memory-tile"
+              aria-label={stage === 'memories' ? `Play funny moment ${index + 1}` : `Open photo ${index + 1}`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08 }}
@@ -38,8 +39,8 @@ export default function MemoryGallery({ stage, manifest, onContinue }) {
             >
               {stage === 'memories'
                 ? <video src={item.src} muted preload="metadata" playsInline />
-                : <img src={item.src} alt={item.caption} loading="lazy" />}
-              <span>{stage === 'memories' ? 'Funny Moments' : item.caption}</span>
+                : <img src={item.src} alt={`Memory photo ${index + 1}`} loading="lazy" />}
+              {stage === 'memories' && <span>Funny Moments</span>}
             </motion.button>
           ))}
         </div>
@@ -52,8 +53,8 @@ export default function MemoryGallery({ stage, manifest, onContinue }) {
               <button className="lightbox-close" onClick={() => setSelected(null)} aria-label="Close">×</button>
               {stage === 'memories'
                 ? <video src={selected.src} controls autoPlay playsInline />
-                : <img src={selected.src} alt={selected.caption} />}
-              <p>{stage === 'memories' ? 'Funny Moments' : selected.caption}</p>
+                : <img src={selected.src} alt="Selected memory photo" />}
+              {stage === 'memories' && <p>Funny Moments</p>}
             </motion.div>
           </motion.div>
         )}

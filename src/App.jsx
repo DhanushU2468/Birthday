@@ -15,6 +15,7 @@ export default function App() {
   const [volume, setVolume] = useState(0.35)
   const [selectedMedia, setSelectedMedia] = useState(null)
   const audioRef = useRef(null)
+  const touchOrigin = useRef(null)
 
   useEffect(() => {
     fetch('/data/gallery.json').then((r) => r.json()).then(setManifest).catch(() => {})
@@ -63,6 +64,23 @@ export default function App() {
   }
 
   const replay = () => setStage('wish')
+  const handleTouchStart = (event) => {
+    const touch = event.changedTouches[0]
+    touchOrigin.current = { x: touch.clientX, y: touch.clientY, target: event.target }
+  }
+  const handleTouchEnd = (event) => {
+    if (!touchOrigin.current) return
+    const start = touchOrigin.current
+    touchOrigin.current = null
+    if (start.target.closest?.('.memory-panel, .lightbox, button, input, video')) return
+    const touch = event.changedTouches[0]
+    const deltaY = touch.clientY - start.y
+    const deltaX = touch.clientX - start.x
+    if (Math.abs(deltaY) < 70 || Math.abs(deltaY) < Math.abs(deltaX) * 1.25) return
+    const index = stages.indexOf(stage)
+    if (deltaY < 0 && index < stages.length - 1) goTo(stages[index + 1])
+    if (deltaY > 0 && index > 0) goTo(stages[index - 1])
+  }
 
   const stageLabel = useMemo(() => ({
     wish: 'Your little universe',
@@ -73,7 +91,7 @@ export default function App() {
   })[stage], [stage])
 
   return (
-    <main className={`experience stage-${stage}`}>
+    <main className={`experience stage-${stage}`} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <AnimatePresence>
         {!loaded && (
           <motion.div className="loader" exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
@@ -92,7 +110,7 @@ export default function App() {
           )}
           <Canvas
             className="world-canvas"
-            dpr={[1, 1.75]}
+            dpr={[1, 1.25]}
             gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
             camera={{ position: [0, 3.2, 13], fov: 38 }}
           >

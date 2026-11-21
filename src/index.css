@@ -12,7 +12,7 @@ html, body, #root { width: 100%; height: 100%; margin: 0; }
 body { overflow: hidden; }
 button, input { font: inherit; }
 button { cursor: pointer; }
-.experience { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(145deg, #d2c3df 0%, #efcad7 48%, #bcd4e8 100%); }
+.experience { position: relative; width: 100%; height: 100vh; height: 100dvh; min-height: 100svh; overflow: hidden; background: linear-gradient(145deg, #d2c3df 0%, #efcad7 48%, #bcd4e8 100%); }
 .world-canvas { position: absolute !important; inset: 0; z-index: 1; }
 .castle-background { position: absolute; z-index: 2; inset: 0; background-image: linear-gradient(rgba(32,24,82,.08), rgba(32,24,82,.18)), url('/deepthi-castle.png'); background-size: cover; background-position: center 58%; }
 .stage-castle .world-canvas { opacity: 0; }
@@ -36,9 +36,11 @@ button { cursor: pointer; }
 .memory-heading { display: flex; align-items: end; justify-content: space-between; padding: 4px 8px 16px; }
 .memory-heading h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 46px); margin: 0; }
 .continue-button { flex: none; }
-.memory-strip { display: flex; gap: 14px; overflow-x: auto; padding: 4px 4px 10px; scrollbar-width: thin; }
-.memory-tile { flex: 0 0 clamp(150px, 18vw, 230px); height: 150px; border: 1px solid rgba(255,255,255,.65); border-radius: 16px; padding: 7px; overflow: hidden; background: rgba(255,255,255,.28); color: #fff; text-align: left; box-shadow: 0 12px 35px rgba(86,65,108,.14); }
+.memory-strip { display: flex; gap: 14px; overflow-x: auto; padding: 4px 4px 10px; scrollbar-width: thin; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; }
+.memory-tile { flex: 0 0 clamp(150px, 18vw, 230px); height: 150px; border: 1px solid rgba(255,255,255,.65); border-radius: 16px; padding: 7px; overflow: hidden; background: rgba(255,255,255,.28); color: #fff; text-align: left; box-shadow: 0 12px 35px rgba(86,65,108,.14); touch-action: manipulation; }
+.stage-photos .memory-tile { height: auto; aspect-ratio: 1 / 1; }
 .memory-tile img, .memory-tile video { width: 100%; height: 112px; object-fit: cover; border-radius: 10px; display: block; }
+.stage-photos .memory-tile img { height: 100%; }
 .memory-tile span { display: block; padding: 8px 4px 0; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gallery-empty { height: 160px; display: grid; place-content: center; text-align: center; border: 1px dashed rgba(255,255,255,.5); border-radius: 16px; }
 .gallery-empty span { font-family: 'Cormorant Garamond', serif; font-size: 28px; }
@@ -76,19 +78,53 @@ code { background: rgba(255,255,255,.25); padding: 3px 6px; border-radius: 5px; 
 @keyframes loading { 0% { width: 5%; } 70% { width: 90%; } 100% { width: 100%; } }
 
 @media (max-width: 700px) {
+  .experience { overflow: hidden; }
+  .world-canvas { touch-action: pan-y; }
   .topbar { top: 18px; left: 18px; right: 18px; }
   .wish-card { left: 22px; right: 22px; top: auto; bottom: 9%; width: auto; transform: none; }
   .wish-card h1 { font-size: clamp(40px, 13vw, 58px); }
   .story { font-size: 13px; line-height: 1.55; margin: 14px 0 20px; }
-  .memory-panel { left: 12px; right: 12px; bottom: 70px; padding: 12px; }
-  .memory-heading { align-items: center; }
-  .memory-heading h2 { font-size: 28px; }
+  .memory-panel {
+    top: max(68px, env(safe-area-inset-top));
+    left: 12px;
+    right: 12px;
+    bottom: max(62px, calc(env(safe-area-inset-bottom) + 52px));
+    padding: 12px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+  .memory-heading { align-items: center; gap: 8px; position: sticky; top: -12px; z-index: 2; padding: 10px 6px 12px; background: rgba(207,190,218,.88); backdrop-filter: blur(14px); }
+  .memory-heading .eyebrow { font-size: 9px; margin-bottom: 5px; }
+  .memory-heading h2 { font-size: clamp(24px, 6.4vw, 30px); line-height: 1; }
   .continue-button { padding: 10px 12px; }
   .continue-button span { margin-left: 5px; }
-  .memory-tile { flex-basis: 150px; }
-  .stage-back { left: 14px; bottom: 18px; }
-  .stage-label { right: 16px; bottom: 30px; }
+  .memory-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; overflow: visible; padding: 4px 0 12px; }
+  .memory-tile, .stage-photos .memory-tile { width: 100%; min-width: 0; height: auto; aspect-ratio: 1 / 1; flex: initial; border-radius: 13px; padding: 6px; }
+  .memory-tile img, .memory-tile video, .stage-photos .memory-tile img { height: 100%; border-radius: 8px; object-fit: cover; }
+  .memory-tile span { padding: 5px 3px 1px; font-size: 10px; }
+  .stage-photos .memory-tile span { display: none; }
+  .gallery-empty { min-height: 150px; height: auto; padding: 20px 10px; }
+  .stage-back { left: 14px; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 21; }
+  .stage-label { right: 16px; bottom: max(27px, calc(env(safe-area-inset-bottom) + 12px)); }
+  .lightbox { padding: max(16px, env(safe-area-inset-top)) 12px max(16px, env(safe-area-inset-bottom)); }
+  .lightbox-content { width: 100%; max-height: 86dvh; padding: 8px; border-radius: 16px; }
+  .lightbox-content img, .lightbox-content video { max-height: 78dvh; border-radius: 10px; }
+  .lightbox-close { right: 4px; top: 4px; }
   .audio-controls input { display: none; }
+}
+
+@media (max-width: 380px) {
+  .memory-heading h2 { font-size: 23px; }
+  .continue-button { padding: 9px 10px; font-size: 12px; }
+}
+
+@media (max-width: 700px) and (max-height: 500px) {
+  .wish-card { bottom: 7%; max-height: 80%; overflow-y: auto; }
+  .wish-card h1 { font-size: clamp(34px, 8vw, 48px); }
+  .story { margin: 10px 0 14px; }
+  .memory-panel { top: 58px; bottom: 52px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
